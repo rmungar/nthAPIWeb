@@ -2,7 +2,7 @@ namespace nthAPIWeb.models;
 
 public class Player
 {
-    public long Id { get; set; }
-    public string? Name { get; set; }
-    public int MaxScore { get; set; }
+    public int Id {get; set;}
+    public int LastCheckPoint { get; set; }
+    public int Deaths { get; set; }
 }
