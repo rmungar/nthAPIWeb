@@ -41,6 +41,10 @@ namespace nthAPIWeb.Controllers
         [HttpPut("Update/{id}")]
         public async Task<IActionResult> PutPlayer(int id, Player player)
         {
+            Console.WriteLine($"ID recibido: {player.Id}");
+            Console.WriteLine($"LastCheckpoint recibido: {player.LastCheckPoint}");
+            Console.WriteLine($"Deaths recibido: {player.Deaths}");
+            
             if (id != player.Id)
             {
                 return BadRequest();
@@ -50,11 +54,7 @@ namespace nthAPIWeb.Controllers
 
             try
             {
-                var existingPlayer = await _context.Players.FindAsync(id);
-                if (existingPlayer == null) return NotFound();
-
-                existingPlayer.LastCheckPoint = player.LastCheckPoint;
-                existingPlayer.Deaths = player.Deaths;
+                
 
                 await _context.SaveChangesAsync();
             }
