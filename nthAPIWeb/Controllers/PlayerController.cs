@@ -23,7 +23,7 @@ namespace nthAPIWeb.Controllers
         }
 
         // GET: api/Player/5
-        [HttpGet("{id}")]
+        [HttpGet("/Get/{id}")]
         public async Task<ActionResult<Player>> GetPlayer(int id)
         {
             var player = await _context.Players.FindAsync(id);
@@ -38,7 +38,7 @@ namespace nthAPIWeb.Controllers
 
         // PUT: api/Player/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut("/Update/{id}")]
         public async Task<IActionResult> PutPlayer(int id, Player player)
         {
             if (id != player.Id)
@@ -69,7 +69,7 @@ namespace nthAPIWeb.Controllers
 
         // POST: api/Player
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+        [HttpPost("/Create")]
         public async Task<ActionResult<Player>> PostPlayer(Player player)
         {
             _context.Players.Add(player);
@@ -79,7 +79,7 @@ namespace nthAPIWeb.Controllers
         }
 
         // DELETE: api/Player/5
-        [HttpDelete("{id}")]
+        [HttpDelete("/Delete/{id}")]
         public async Task<IActionResult> DeletePlayer(int id)
         {
             var player = await _context.Players.FindAsync(id);
