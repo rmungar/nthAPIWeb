@@ -54,8 +54,6 @@ namespace nthAPIWeb.Controllers
 
             try
             {
-                
-
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
