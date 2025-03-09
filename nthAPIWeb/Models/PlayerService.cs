@@ -12,7 +12,7 @@ public class PlayerService
     {
         var client = new MongoClient(config["MongoDB:ConnectionURI"]);
         var database = client.GetDatabase(config["MongoDB:DatabaseName"]);
-        _players = database.GetCollection<Player>("PlayerStats");
+        _players = database.GetCollection<Player>(config["MongoDB:CollectionName"]);
     }
 
     public async Task<List<Player>> GetPlayersAsync() => 
