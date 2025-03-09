@@ -10,7 +10,7 @@ public class PlayerService
 
     public PlayerService(IConfiguration config)
     {
-        var client = new MongoClient(config["MongoDB:ConnectionString"]);
+        var client = new MongoClient(config["MongoDB:ConnectionURI"]);
         var database = client.GetDatabase(config["MongoDB:DatabaseName"]);
         _players = database.GetCollection<Player>("PlayerStats");
     }
