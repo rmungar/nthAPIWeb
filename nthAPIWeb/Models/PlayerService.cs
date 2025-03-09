@@ -1,8 +1,7 @@
 namespace nthAPIWeb.models;
 
 using MongoDB.Driver;
-using nthAPIWeb.models;
-using Microsoft.Extensions.Options;
+
 
 public class PlayerService
 {

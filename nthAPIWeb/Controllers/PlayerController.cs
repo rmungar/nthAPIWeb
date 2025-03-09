@@ -37,14 +37,14 @@ namespace nthAPIWeb.Controllers
         }
 
         [HttpPut("Update/{id}")]
-        public async Task<IActionResult> PutPlayer(string id, Player player)
+        public async Task<ActionResult<Player>> PutPlayer(string id, Player player)
         {
             if (id != player._id) return BadRequest();
 
             var updated = await _playerService.UpdatePlayerAsync(id, player);
             if (!updated) return NotFound();
 
-            return NoContent();
+            return player;
         }
 
         [HttpDelete("Delete/{id}")]
