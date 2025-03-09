@@ -8,6 +8,7 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<PlayerContext>(
     opt => opt.UseInMemoryDatabase("Players")
 );
+builder.Services.AddSingleton<PlayerService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var app = builder.Build();

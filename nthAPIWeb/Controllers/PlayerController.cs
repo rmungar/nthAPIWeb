@@ -8,99 +8,53 @@ namespace nthAPIWeb.Controllers
     [ApiController]
     public class PlayerController : ControllerBase
     {
-        private readonly PlayerContext _context;
+        private readonly PlayerService _playerService;
 
-        public PlayerController(PlayerContext context)
+        public PlayerController(PlayerService playerService)
         {
-            _context = context;
+            _playerService = playerService;
         }
 
-        // GET: api/Player
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Player>>> GetPlayers()
         {
-            return await _context.Players.ToListAsync();
+            return Ok(await _playerService.GetPlayersAsync());
         }
 
-        // GET: api/Player/5
         [HttpGet("Get/{id}")]
         public async Task<ActionResult<Player>> GetPlayer(int id)
         {
-            var player = await _context.Players.FindAsync(id);
-
-            if (player == null)
-            {
-                return NotFound();
-            }
-
+            var player = await _playerService.GetPlayerAsync(id);
+            if (player == null) return NotFound();
             return player;
         }
 
-        // PUT: api/Player/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("Update/{id}")]
-        public async Task<IActionResult> PutPlayer(int id, Player player)
-        {
-            Console.WriteLine($"ID recibido: {player.Id}");
-            Console.WriteLine($"LastCheckpoint recibido: {player.LastCheckPoint}");
-            Console.WriteLine($"Deaths recibido: {player.Deaths}");
-            
-            if (id != player.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(player).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PlayerExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Player
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("Create")]
         public async Task<ActionResult<Player>> PostPlayer(Player player)
         {
-            _context.Players.Add(player);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetPlayer", new { id = player.Id }, player);
+            await _playerService.CreatePlayerAsync(player);
+            return CreatedAtAction(nameof(GetPlayer), new { id = player._id }, player);
         }
 
-        // DELETE: api/Player/5
-        [HttpDelete("Delete/{id}")]
-        public async Task<IActionResult> DeletePlayer(int id)
+        [HttpPut("Update/{id}")]
+        public async Task<IActionResult> PutPlayer(int id, Player player)
         {
-            var player = await _context.Players.FindAsync(id);
-            if (player == null)
-            {
-                return NotFound();
-            }
+            if (id != player._id) return BadRequest();
 
-            _context.Players.Remove(player);
-            await _context.SaveChangesAsync();
+            var updated = await _playerService.UpdatePlayerAsync(id, player);
+            if (!updated) return NotFound();
 
             return NoContent();
         }
 
-        private bool PlayerExists(int id)
+        [HttpDelete("Delete/{id}")]
+        public async Task<IActionResult> DeletePlayer(int id)
         {
-            return _context.Players.Any(e => e.Id == id);
+            var deleted = await _playerService.DeletePlayerAsync(id);
+            if (!deleted) return NotFound();
+
+            return NoContent();
         }
     }
+
 }
