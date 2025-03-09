@@ -22,7 +22,7 @@ namespace nthAPIWeb.Controllers
         }
 
         [HttpGet("Get/{id}")]
-        public async Task<ActionResult<Player>> GetPlayer(int id)
+        public async Task<ActionResult<Player>> GetPlayer(string id)
         {
             var player = await _playerService.GetPlayerAsync(id);
             if (player == null) return NotFound();
@@ -37,7 +37,7 @@ namespace nthAPIWeb.Controllers
         }
 
         [HttpPut("Update/{id}")]
-        public async Task<IActionResult> PutPlayer(int id, Player player)
+        public async Task<IActionResult> PutPlayer(string id, Player player)
         {
             if (id != player._id) return BadRequest();
 
@@ -48,7 +48,7 @@ namespace nthAPIWeb.Controllers
         }
 
         [HttpDelete("Delete/{id}")]
-        public async Task<IActionResult> DeletePlayer(int id)
+        public async Task<IActionResult> DeletePlayer(string id)
         {
             var deleted = await _playerService.DeletePlayerAsync(id);
             if (!deleted) return NotFound();
